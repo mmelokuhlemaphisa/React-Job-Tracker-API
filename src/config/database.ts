@@ -13,3 +13,15 @@ const pool = new Pool({
 });
 
 export const query = (text: string, params?: any[]) => pool.query(text, params);
+
+export const testDBConnection = async () => {
+  try {
+    const client = await pool.connect();
+    console.log("Database connection successful");
+    client.release();
+
+  } catch (error) {
+    console.error("Database connection failed", error);
+    process.exit(1);
+  }
+};
