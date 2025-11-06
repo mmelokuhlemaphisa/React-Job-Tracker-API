@@ -24,3 +24,14 @@ export const findApplicationById = async (id: number): Promise<Application | nul
     const { rows } = await query("SELECT * FROM application WHERE id = $1", [id]);
     return rows[0] || null;
 };
+
+export const updateApplication = async (id : number, appData : Application): Promise<Application | null> => {
+    const {status} = appData;
+    const { rows} = await query("UPDATE application SET status = $1 WHERE id = $2 RETURNING *", [status, id]);
+    return rows[0] || null;
+};
+
+export const deleteApplication = async (id : number): Promise<Application | null> => {
+    const { rows } = await query("DELETE FROM application WHERE id = $1 RETURNING *", [id]);
+    return rows[0] || null;
+};

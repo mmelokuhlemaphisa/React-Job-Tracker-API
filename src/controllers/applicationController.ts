@@ -32,3 +32,29 @@ export const getApplicationById = async (req: Request, res: Response) => {
         res.status(500).json({ message: "error retrieving application" });
     }
 };
+
+export const updateApplicationById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const updatedApplication = await applicationService.updateApplication(id, req.body);
+        if (!updatedApplication) {
+            return res.status(404).json({ message: "Application not found" });
+        }
+        res.status(200).json(updatedApplication);
+    } catch (error) {
+        res.status(500).json({ message: "error updating application" });
+    }
+};
+
+export const deleteApplicationById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const deletedApplication = await applicationService.deleteApplication(id);
+        if (!deletedApplication) {
+            return res.status(404).json({ message: "Application not found" });
+        }   
+        res.status(200).json({ message: "Application deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "error deleting application" });
+    }
+};
